@@ -9,15 +9,15 @@ uwsgi_source:
   git.latest:
     - name: https://github.com/unbit/uwsgi.git
     - target: /usr/local/uwsgi
-    - rev: {{ salt['pillar.get']('uwsgi:version', '2.0.1') }}
+    - rev: {{ salt['pillar.get']('uwsgi:version', '2.0.6') }}
     - require:
       - pkg: uwsgi_packages
 
 uwsgi_compile:
   cmd.run:
-    - name: {{python}} uwsgiconfig.py --build {{ salt['pillar.get']('uwsgi:build_params', '') }}
+    - name: {{python}} uwsgiconfig.py --build {{ salt['pillar.get']('uwsgi:build_params', 'core') }}
     - cwd: /usr/local/uwsgi/
-    - unless: /usr/local/bin/uwsgi --version | grep {{ salt['pillar.get']('uwsgi:version', '2.0.1') }}
+    - unless: /usr/local/bin/uwsgi --version | grep {{ salt['pillar.get']('uwsgi:version', '2.0.6') }}
     - require:
       - git: uwsgi_source
 
